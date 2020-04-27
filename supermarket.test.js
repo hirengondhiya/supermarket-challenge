@@ -1,4 +1,4 @@
-const queueTime = require('/home/supermarket').queueTime;
+const queueTime = require('./supermarket').queueTime;
 
 describe('queueTime', function () {
   describe('Should return the correct queue time', function () {
