@@ -1,57 +1,28 @@
 class Till {
-	constructor(id) {
-    this.id = id;
+	constructor() {
 		this.customerTime = [];
 	}
-	totalTime() {
-		return this.customerTime.reduce((a, b) => a + b, 0)
+	lineTotal() {
+		return this.customerTime.reduce((a, b) => a + b, 0);
 	}
 	addCustomer(time) {
 		this.customerTime.push(time);
 	}
 }
-
-function tillWithSmallestQueue(tills) {
-    let s =  tills.reduce((t1, t2) => {
-      if (t1.totalTime() <= t2.totalTime()) {
-        return t1;
-      } else {
-        return t2;
-      }
-    }, tills[0]);
-
-  return s;
+// returns till with lowest lineTotal value
+function smallestLine(tills) {
+  return tills.reduce((t1, t2) => t1.lineTotal() <= t2.lineTotal()? t1 : t2, tills[0]);  
 }
-
-function tillWithLargestQueue(tills) {
-    let l = tills.reduce((t1, t2) => {
-        if(t1.totalTime() > t2.totalTime()) {
-          return t1;
-        } else {
-          return t2;
-        }
-    }, tills[0]);  
-    return l;
+// returns till with largest lineTotal value
+function largestLine(tills) {
+    return tills.reduce((t1, t2) => t1.lineTotal() > t2.lineTotal()? t1 : t2, tills[0]);  
 }
-
 function queueTime(customers, n) {
-    let tills = [];
-    for(let i=0; i<n; i++) {
-      tills.push(new Till(i+1))
-    }
-    // process each customer
-    customers.forEach(customer => {
-        // get till with lowest totalTime
-        let smallestTill = tillWithSmallestQueue(tills);
-        
-        // add customer to that till
-        smallestTill.addCustomer(customer);
-    });
-    
-    // find till with larget totalTime
-    let largestTill = tillWithLargestQueue(tills);
-    // that's the output we need
-    return largestTill.totalTime();
+    let tills = new Array(3).fill(new Till());
+    // add each customer to the till with smallest line
+    customers.forEach(customer => smallestLine(tills).addCustomer(customer));
+    // find till with largest lineTotal return
+    return largestLine(tills).lineTotal();
 }
 
 module.exports = {queueTime}
