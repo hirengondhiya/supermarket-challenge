@@ -18,7 +18,8 @@ function largestLine(tills) {
     return tills.reduce((t1, t2) => t1.lineTotal() > t2.lineTotal()? t1 : t2, tills[0]);  
 }
 function queueTime(customers, n) {
-    let tills = new Array(3).fill(new Till());
+	// create n tills 
+	let tills = new Array(n).fill(undefined).map(t => new Till());
     // add each customer to the till with smallest line
     customers.forEach(customer => smallestLine(tills).addCustomer(customer));
     // find till with largest lineTotal return
